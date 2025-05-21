@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "A plugin for Insomnia to validate Content-Disposition headers by RFC standards.",
   "main": "main.js",
+  "files": [
+    "main.js",
+    "contentDisposition.js"
+  ],
   "keywords": [
     "insomnia",
     "plugin",
