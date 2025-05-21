@@ -1,0 +1,10 @@
+{
+  "name": "insomnia-plugin-content-disposition-validator",
+  "version": "0.0.1",
+  "description": "A plugin for Insomnia to validate Content-Disposition headers by RFC standards.",
+  "insomnia": {
+    "name": "content-disposition-validator",
+    "description": ""
+  },
+  "main": "main.js"
+}
