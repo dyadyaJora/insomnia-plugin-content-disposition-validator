@@ -1,5 +1,7 @@
 # Insomnia Plugin: Content-Disposition Validator
 
+[![NPM Version](https://img.shields.io/npm/v/insomnia-plugin-content-disposition-validator)](https://www.npmjs.com/package/insomnia-plugin-content-disposition-validator)
+
 A plugin for [Insomnia](https://insomnia.rest/) to validate `Content-Disposition` headers based on [RFC-6266](https://datatracker.ietf.org/doc/html/rfc6266).
 
 ## Features
