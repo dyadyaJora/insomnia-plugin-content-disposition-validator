@@ -26,7 +26,13 @@
   "homepage": "https://github.com/dyadyaJora/insomnia-plugin-content-disposition-validator#readme",
   "insomnia": {
     "name": "content-disposition-validator",
-    "description": "Validate Content-Disposition headers in Insomnia requests."
+    "description": "Validate Content-Disposition headers in Insomnia requests.",
+    "publisher": {
+      "name": "George Kindra"
+    },
+    "images": {
+      "icon": "./logo.png"
+    }
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
