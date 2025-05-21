@@ -1,10 +1,30 @@
 {
   "name": "insomnia-plugin-content-disposition-validator",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "A plugin for Insomnia to validate Content-Disposition headers by RFC standards.",
+  "main": "main.js",
+  "keywords": [
+    "insomnia",
+    "plugin",
+    "content-disposition",
+    "header",
+    "validator"
+  ],
+  "license": "ISC",
+  "author": "George Kindra (https://github.com/dyadyaJora)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dyadyaJora/insomnia-plugin-content-disposition-validator.git"
+  },
+  "bugs": {
+    "url": "https://github.com/dyadyaJora/insomnia-plugin-content-disposition-validator/issues"
+  },
+  "homepage": "https://github.com/dyadyaJora/insomnia-plugin-content-disposition-validator#readme",
   "insomnia": {
     "name": "content-disposition-validator",
-    "description": ""
+    "description": "Validate Content-Disposition headers in Insomnia requests."
   },
-  "main": "main.js"
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }

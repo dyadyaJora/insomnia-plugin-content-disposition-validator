@@ -4,14 +4,6 @@ const FILENAME_VALUE_CHARS_PATTERN = /(%[a-f0-9]{2}|[a-z0-9!#$&+.^_`|~-])+/i;
 const QUOTE = '"';
 const BACK_SLASH = '\\';
 
-function decodeURIComponentSafe(str) {
-  try {
-    return decodeURIComponent(str);
-  } catch {
-    return str;
-  }
-}
-
 function encodeAsciiFileName(fileName) {
   if (!fileName || (!fileName.includes(QUOTE) && !fileName.includes(BACK_SLASH))) {
     return fileName;
@@ -39,7 +31,7 @@ function validate(header) {
     encoded: false,
     params: {},
   };
-  debugger;
+
   if (typeof header !== 'string') {
     result.params['header'] = { value: header, error: 'Header must be a string' };
     return result;

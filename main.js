@@ -6,7 +6,6 @@ const ENABLE_SETTING_KEY = 'enabled';
  * Check if plugin is enabled via settings
  */
 async function isEnabled(context) {
-    console.log("isEnabled");
     const value = await context.store.getItem(ENABLE_SETTING_KEY);
     return value === true || value === 'true';
 }
@@ -16,42 +15,33 @@ module.exports.requestActions = [
     {
         label: 'Validate Content-Disposition header data',
         action: async (context, data) => {
-            console.log("requestActions");
             const { request } = data;
 
             const contentDispositionHeader = request.headers.find(h => h.name.toLowerCase() === 'content-disposition');
-            if (!contentDispositionHeader) {
-                context.app.alert('Header Validation Report', '⚠️ Missing Content-Disposition header.');
-                return;
+            if (!contentDispositionHeader || contentDispositionHeader.disabled) {
+                return context.app.alert('Header Validation Report', '⚠️ Missing Content-Disposition header.');
             }
 
-            const res = validate(contentDispositionHeader.value);
-            console.log("res", res);
+            const { type, params } = validate(contentDispositionHeader.value);
 
-            const paramsList = Object.entries(res.params).map(([key, { value, error }]) => {
+            const paramsList = Object.entries(params).map(([key, { value, error }]) => {
                 const emoji = error ? '🔴' : '🟢';
-                const errorText = error ? ` (Error: ${error})` : '';
-                return `<li>${emoji} <strong>${key}</strong>: ${value || 'N/A'}${errorText}</li>`;
+                return `<li>${emoji} <strong>${key}</strong>: ${value || 'N/A'}${error ? ` (Error: ${error})` : ''}</li>`;
             }).join('');
 
-            const hasErrors = Object.values(res.params).some(param => param.error);
+            const displayedList = type 
+                ? `<li>🟢 <strong>Type</strong>: ${type}</li>${paramsList}` 
+                : paramsList;
+
+            const hasErrors = Object.values(params).some(param => param.error);
 
             const bodyElement = document.createElement('div');
-            if (hasErrors) {
-                bodyElement.innerHTML = `
-                    <p>❌ Invalid Content-Disposition header: <strong>${contentDispositionHeader.value}</strong></p>
-                    <ul>${paramsList}</ul>
-                `;
-            } else {
-                bodyElement.innerHTML = `
-                    <p>✅ Valid Content-Disposition header: <strong>${contentDispositionHeader.value}</strong></p>
-                    <ul>${paramsList}</ul>
-                `;
-            }
+            bodyElement.innerHTML = `
+                <p>${hasErrors ? '❌ Invalid' : '✅ Valid'} Content-Disposition header: <strong>${contentDispositionHeader.value}</strong></p>
+                <ul>${displayedList}</ul>
+            `;
 
-            context.app.dialog('Header Validation Report', bodyElement, {
-                tall: false,
-            });
+            context.app.dialog('Header Validation Report', bodyElement, { tall: false });
         },
     },
 ];
