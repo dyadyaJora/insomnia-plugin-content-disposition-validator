@@ -1,3 +1,4 @@
+const { validate } = require('./contentDisposition');
 const REQUIRED_HEADERS = ['Authorization', 'X-Custom-Header'];
 const ENABLE_SETTING_KEY = 'enabled';
 
@@ -24,40 +25,35 @@ module.exports.requestActions = [
                 return;
             }
 
-            function validate(headerValue) {
-                // TODO
-                return headerValue.includes('attachment');
+            const res = validate(contentDispositionHeader.value);
+            console.log("res", res);
+
+            const paramsList = Object.entries(res.params).map(([key, { value, error }]) => {
+                const emoji = error ? '🔴' : '🟢';
+                const errorText = error ? ` (Error: ${error})` : '';
+                return `<li>${emoji} <strong>${key}</strong>: ${value || 'N/A'}${errorText}</li>`;
+            }).join('');
+
+            const hasErrors = Object.values(res.params).some(param => param.error);
+
+            const bodyElement = document.createElement('div');
+            if (hasErrors) {
+                bodyElement.innerHTML = `
+                    <p>❌ Invalid Content-Disposition header: <strong>${contentDispositionHeader.value}</strong></p>
+                    <ul>${paramsList}</ul>
+                `;
+            } else {
+                bodyElement.innerHTML = `
+                    <p>✅ Valid Content-Disposition header: <strong>${contentDispositionHeader.value}</strong></p>
+                    <ul>${paramsList}</ul>
+                `;
             }
 
-            const isValid = validate(contentDispositionHeader.value);
-            if (isValid) {
-                context.app.alert('Header Validation Report', '✅ Valid Content-Disposition header.');
-            } else {
-                context.app.alert('Header Validation Report', `❌ Invalid Content-Disposition header: ${contentDispositionHeader.value}`);
-            }
+            context.app.dialog('Header Validation Report', bodyElement, {
+                tall: false,
+            });
         },
     },
-];
-
-module.exports.workspaceActions = [
-    {
-        label: 'Validate Headers',
-        icon: 'fa-check-circle',
-        action: async (context) => {
-            const enabled = await isEnabled(context);
-            if (!enabled) {
-                context.app.alert('Header Validator Disabled', '⚠️ Plugin is currently disabled. Enable it in settings to run validation.');
-                return;
-            }
-
-            const isValid = true;
-            if (isValid) {
-                context.app.alert('Header Validation Report', '✅ Valid headers.');
-            } else {
-                context.app.alert('Header Validation Report', '❌ Invalid headers.');
-            }
-        }
-    }
 ];
 
 module.exports.config = {
