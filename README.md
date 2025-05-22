@@ -12,9 +12,12 @@ A plugin for [Insomnia](https://insomnia.rest/) to validate `Content-Disposition
 
 ## Usage
 
-1. Open a request in Insomnia.
-2. Right-click on the request and select **"Validate Content-Disposition header data"**.
-3. View the validation results in a dialog.
+1. Open a request in Insomnia.  
+2. Right-click on the request and select **"Validate Content-Disposition header data"**.  
+   ![Popup](./demo/demo1.png)
+3. View the validation results in a dialog.  
+   ![Invalid header](./demo/demo2.png)
+   ![Valid header](./demo/demo3.png)
 
 ## Settings
 
